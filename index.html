@@ -592,7 +592,66 @@
             e.stopPropagation();
             const name = kitFullNames[id] || (isBuilding ? "建物 " + id : "案内板 " + id);
             document.getElementById("modal-title").innerText = name;
-            document.getElementById("modal-description").innerText = name + " の詳細情報です。";
+
+            let descHTML = name + " の詳細情報です。";
+
+            if (id === "郵便局") {
+              descHTML += `
+                <table style="width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 12px; text-align: center;">
+                  <tr style="background: #f66c28; color: white;">
+                    <th style="padding: 6px; border: 1px solid #ddd;"></th>
+                    <th style="padding: 6px; border: 1px solid #ddd;">平日</th>
+                    <th style="padding: 6px; border: 1px solid #ddd;">土曜日</th>
+                    <th style="padding: 6px; border: 1px solid #ddd;">日曜日・休日</th>
+                  </tr>
+                  <tr>
+                    <td style="padding: 6px; border: 1px solid #ddd; text-align: left; white-space: nowrap;"><span style="background:#cc0000; color:white; padding:2px 4px; border-radius:2px; font-size:10px; margin-right:4px;">郵便</span>郵便窓口</td>
+                    <td style="padding: 6px; border: 1px solid #ddd;">9:00〜17:00</td>
+                    <td style="padding: 6px; border: 1px solid #ddd;">お取り扱いしません</td>
+                    <td style="padding: 6px; border: 1px solid #ddd;">お取り扱いしません</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 6px; border: 1px solid #ddd; text-align: left; white-space: nowrap;"><span style="background:#009900; color:white; padding:2px 4px; border-radius:2px; font-size:10px; margin-right:4px;">貯金</span>貯金窓口</td>
+                    <td style="padding: 6px; border: 1px solid #ddd;">9:00〜16:00</td>
+                    <td style="padding: 6px; border: 1px solid #ddd;">お取り扱いしません</td>
+                    <td style="padding: 6px; border: 1px solid #ddd;">お取り扱いしません</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 6px; border: 1px solid #ddd; text-align: left; white-space: nowrap;"><span style="background:#009900; color:white; padding:2px 4px; border-radius:2px; font-size:10px; margin-right:4px;">ATM</span>ATM</td>
+                    <td style="padding: 6px; border: 1px solid #ddd;">9:00〜17:30</td>
+                    <td style="padding: 6px; border: 1px solid #ddd;">9:00〜12:30</td>
+                    <td style="padding: 6px; border: 1px solid #ddd;">お取り扱いしません</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 6px; border: 1px solid #ddd; text-align: left; white-space: nowrap;"><span style="background:#0000cc; color:white; padding:2px 4px; border-radius:2px; font-size:10px; margin-right:4px;">保険</span>保険窓口</td>
+                    <td style="padding: 6px; border: 1px solid #ddd;">9:00〜16:00</td>
+                    <td style="padding: 6px; border: 1px solid #ddd;">お取り扱いしません</td>
+                    <td style="padding: 6px; border: 1px solid #ddd;">お取り扱いしません</td>
+                  </tr>
+                </table>
+              `;
+            } else if (id === "bus_2") {
+              descHTML += `
+                <h4 style="margin-top: 15px; margin-bottom: 8px; color: #333; font-size: 15px; border-left: 4px solid #f66c28; padding-left: 8px;">23号館横(乗車のみ)</h4>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; font-size: 14px;">
+                  <span style="background: #f0f0f0; border: 1px solid #ddd; padding: 6px 12px; border-radius: 4px;">8:20</span>
+                  <span style="background: #f0f0f0; border: 1px solid #ddd; padding: 6px 12px; border-radius: 4px;">8:40</span>
+                  <span style="background: #f0f0f0; border: 1px solid #ddd; padding: 6px 12px; border-radius: 4px;">9:20</span>
+                  <span style="background: #f0f0f0; border: 1px solid #ddd; padding: 6px 12px; border-radius: 4px;">9:40</span>
+                  <span style="background: #f0f0f0; border: 1px solid #ddd; padding: 6px 12px; border-radius: 4px;">10:40</span>
+                  <span style="background: #f0f0f0; border: 1px solid #ddd; padding: 6px 12px; border-radius: 4px;">12:00</span>
+                  <span style="background: #f0f0f0; border: 1px solid #ddd; padding: 6px 12px; border-radius: 4px;">12:30</span>
+                  <span style="background: #f0f0f0; border: 1px solid #ddd; padding: 6px 12px; border-radius: 4px;">13:20</span>
+                  <span style="background: #f0f0f0; border: 1px solid #ddd; padding: 6px 12px; border-radius: 4px;">15:10</span>
+                  <span style="background: #f0f0f0; border: 1px solid #ddd; padding: 6px 12px; border-radius: 4px;">16:30</span>
+                  <span style="background: #f0f0f0; border: 1px solid #ddd; padding: 6px 12px; border-radius: 4px;">17:10</span>
+                  <span style="background: #f0f0f0; border: 1px solid #ddd; padding: 6px 12px; border-radius: 4px;">17:50</span>
+                  <span style="background: #f0f0f0; border: 1px solid #ddd; padding: 6px 12px; border-radius: 4px;">19:10</span>
+                </div>
+              `;
+            }
+
+            document.getElementById("modal-description").innerHTML = descHTML;
             document.getElementById("modal").classList.add("show");
           };
         }
