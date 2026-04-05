@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>KIT Campus Map</title>
   <style>
     :root {
@@ -19,6 +20,8 @@
       margin: 0;
       height: 100vh;
       overflow: hidden;
+      /* ページ全体のブラウザズームを抑制する設定を追加 */
+      touch-action: none;
     }
 
     #main {
@@ -37,6 +40,8 @@
       align-items: center;
       background-color: var(--bg);
       position: relative;
+      /* マップコンテナ上でのブラウザ規定動作を抑え、自前ズームに専念 */
+      touch-action: none;
     }
 
     svg#campus-svg {
@@ -44,6 +49,8 @@
       height: 100%;
       max-width: 100vw;
       max-height: 100vh;
+      /* SVG内もタッチ規定動作を無効化 */
+      touch-action: none;
     }
 
     .building-path {
