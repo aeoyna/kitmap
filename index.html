@@ -25,17 +25,25 @@
       flex: 1;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      padding: 20px;
-      overflow-y: auto;
+      padding: 0;
+      overflow: hidden;
     }
 
     #map-container {
-      background-color: #fff;
-      padding: 10px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      border-radius: 4px;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: var(--bg);
       position: relative;
+    }
+
+    svg#campus-svg {
+      width: 100%;
+      height: 100%;
+      max-width: 100vw;
+      max-height: 100vh;
     }
 
     .building-path {
@@ -137,7 +145,7 @@
 <body>
   <div id="main">
     <div id="map-container">
-      <svg id="campus-svg" width="688" height="886" viewBox="0 0 688 886" fill="none"
+      <svg id="campus-svg" viewBox="0 0 688 886" preserveAspectRatio="xMidYMid meet" fill="none"
         xmlns="http://www.w3.org/2000/svg">
         <g id="base-layer">
           <path id="23" d="M406 309.541H510V365.541H406V309.541Z" fill="#F66C28" />
