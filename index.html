@@ -846,9 +846,12 @@
           id: f.buildingId,
           name: f.name,
           type: 'internal'
-        }))
+        })),
+        { name: "AED", ids: ["1", "6", "7", "9", "11", "13", "21", "23", "24", "26", "31", "40", "41", "6LC"], type: "multi" },
+        { name: "印刷機 (プリンター)", ids: ["1", "6", "7", "8", "10", "23", "41", "6LC"], type: "multi" }
       ].filter(item => {
-        return item.id && !item.id.includes("Rectangle") && !item.id.includes("road") && !item.id.includes("corridor");
+        const idToCheck = item.id || (item.ids ? "Multi" : null);
+        return idToCheck && !idToCheck.includes("Rectangle") && !idToCheck.includes("road") && !idToCheck.includes("corridor");
       });
       console.log("KIT Map: Search data initialized", searchData.length, "items");
 
@@ -879,7 +882,8 @@
         results.forEach(item => {
           const div = document.createElement("div");
           div.className = "search-result-item";
-          div.innerHTML = `<div class="search-result-name">${item.name}</div><div class="search-result-id">${item.id}</div>`;
+          const subText = item.id || (item.type === 'multi' ? "学内各所" : "");
+          div.innerHTML = `<div class="search-result-name">${item.name}</div><div class="search-result-id">${subText}</div>`;
           div.onclick = function(e) {
             e.stopPropagation();
             selectResult(item);
@@ -889,24 +893,44 @@
         searchResults.style.display = "block";
       }
 
-      let activeHighlight = null;
+      let activeHighlights = [];
 
       function clearHighlight() {
-        if (activeHighlight) {
-          activeHighlight.classList.remove("highlight-blue");
-          activeHighlight = null;
-        }
+        activeHighlights.forEach(el => el.classList.remove("highlight-blue"));
+        activeHighlights = [];
       }
 
       function selectResult(item) {
         console.log("KIT Map: Selected search result", item);
         clearHighlight();
-        const targetElement = document.getElementById(item.id) || document.querySelector(`[id="${item.id}"]`);
-        if (targetElement) {
-          focusElement(targetElement, true);
+        
+        if (item.type === 'multi') {
+          // Highlight multiple elements
+          item.ids.forEach(id => {
+            const el = document.getElementById(id) || document.querySelector(`[id="${id}"]`);
+            if (el) {
+              el.classList.add("highlight-blue");
+              activeHighlights.push(el);
+            }
+          });
+          // Zoom out to show the overall campus layout when multiple items are highlighted
+          scale = 0.8;
+          pointX = (688 / 2) - (350 * scale);
+          pointY = (886 / 2) - (450 * scale);
+          updateTransform();
+          
+          // Clear multiple highlights after 5 seconds
+          setTimeout(clearHighlight, 5000);
         } else {
-          console.warn("KIT Map: Target element not found for ID", item.id);
+          // Standard single element behavior
+          const targetElement = document.getElementById(item.id) || document.querySelector(`[id="${item.id}"]`);
+          if (targetElement) {
+            focusElement(targetElement, true);
+          } else {
+            console.warn("KIT Map: Target element not found for ID", item.id);
+          }
         }
+        
         searchInput.value = "";
         searchClear.style.display = "none";
         searchResults.style.display = "none";
@@ -923,7 +947,7 @@
 
         if (highlight) {
           el.classList.add("highlight-blue");
-          activeHighlight = el;
+          activeHighlights.push(el);
           // Clear highlight after 3 seconds or when modal is closed
           setTimeout(clearHighlight, 3000);
         }
