@@ -47,22 +47,132 @@
   }
   </script>
   <style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
     :root {
       --bg: #ffffff;
       --panel: #ffffff;
       --orange: #f66c28;
+      --orange-light: #fff5f0;
       --blue: #3498db;
+      --text: #333333;
+      --text-muted: #666666;
+      --header-height: 70px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
       background: var(--bg);
-      display: flex;
-      font-family: "Helvetica Neue", Arial, sans-serif;
+      color: var(--text);
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       margin: 0;
-      height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Navigation */
+    .navbar {
+      height: var(--header-height);
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      position: sticky;
+      top: 0;
+      z-index: 2000;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-logo {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--orange);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: color 0.3s;
+      font-size: 0.95rem;
+    }
+
+    .nav-links a:hover {
+      color: var(--orange);
+    }
+
+    /* Main Content */
+    #main {
+      width: 100%;
+    }
+
+    /* Embedded Map Section */
+    .map-section {
+      height: calc(100vh - var(--header-height));
+      position: relative;
+      background: #fdfdfd;
+      border-bottom: 1px solid #eee;
+    }
+
+    #map-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       overflow: hidden;
       touch-action: none;
-      /* ブラウザのデフォルトズームを防止 */
+    }
+
+    #zoom-controls {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      z-index: 500;
+    }
+
+    .zoom-btn {
+      width: 50px;
+      height: 50px;
+      background: white;
+      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: 50%;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 600;
+      color: #333;
+      transition: all 0.2s;
     }
 
     #main {
@@ -256,34 +366,131 @@
       line-height: 1.4;
     }
 
-    #disclaimer-header {
-      position: fixed;
-      top: 0;
+    /* Section Styling */
+    .content-section {
+      padding: 100px 10% 120px 10%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 40px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-title::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
       left: 0;
-      width: 100%;
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(5px);
-      padding: 12px 15px;
-      font-size: 12px;
-      line-height: 1.5;
-      color: #777;
-      border-bottom: 1px solid #eee;
-      z-index: 2000;
+      width: 60px;
+      height: 4px;
+      background: var(--orange);
+      border-radius: 2px;
+    }
+
+    .mission-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      margin-top: 50px;
+    }
+
+    .mission-text h3 {
+      font-size: 1.5rem;
+      color: var(--orange);
+      margin-bottom: 20px;
+    }
+
+    .mission-image {
+      background: var(--orange-light);
+      border-radius: 30px;
+      padding: 40px;
       text-align: center;
-      pointer-events: none;
+    }
+
+    /* Footer Sitemap */
+    .site-footer {
+      background: #1a1a1a;
+      color: white;
+      padding: 80px 10% 40px 10%;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+
+    .footer-brand h2 {
+      color: var(--orange);
+      margin-bottom: 20px;
+    }
+
+    .footer-links h4 {
+      margin-bottom: 25px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.9rem;
+      color: #999;
+    }
+
+    .footer-links ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-links li {
+      margin-bottom: 12px;
+    }
+
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+      transition: color 0.3s;
+      font-size: 0.95rem;
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #333;
+      padding-top: 30px;
+      text-align: center;
+      color: #777;
+      font-size: 0.85rem;
+    }
+
+    /* Disclaimer Bar */
+    .disclaimer-bar {
+      background: var(--orange-light);
+      padding: 10px 5%;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--orange);
+      font-weight: 500;
+    }
+
+    #disclaimer-header {
+      display: none; /* Old header removed */
     }
 
     #search-container {
-      position: fixed;
-      top: 70px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 90%;
-      max-width: 500px;
+      position: absolute;
+      top: 30px;
+      left: 30px;
+      transform: none;
+      width: 320px;
       z-index: 1500;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
     }
 
     .search-input-wrapper {
@@ -361,23 +568,37 @@
 </head>
 
 <body>
-  <header id="disclaimer-header">
-    <h1 style="font-size: 14px; margin: 0 0 4px 0; color: #333;">【非公式】金沢工業大学（KIT）扇が丘キャンパスマップ</h1>
-    情報は参考程度に使ってください。正確な情報は一次情報を使うようにしてください。
-  </header>
-
-  <div id="search-container">
-    <div class="search-input-wrapper">
-      <input type="text" id="search-input" placeholder="施設や号館を検索..." autocomplete="off">
-      <span id="search-clear">&times;</span>
-    </div>
-    <div id="search-results"></div>
+  <div class="disclaimer-bar">
+    本サイトは非公式です。最新の正確な情報は金沢工業大学公式ウェブサイトをご確認ください。
   </div>
-  <div id="map-container">
-    <svg id="campus-svg" viewBox="0 0 688 886" preserveAspectRatio="xMidYMid slice" fill="none"
-      xmlns="http://www.w3.org/2000/svg">
-      <g id="viewport">
-        <g id="base-layer">
+
+  <nav class="navbar">
+    <a href="#" class="nav-logo">
+      <span style="color: #333">KIT</span> CampusMap
+    </a>
+    <ul class="nav-links">
+      <li><a href="#">マップ</a></li>
+      <li><a href="#mission">ミッション</a></li>
+      <li><a href="#sitemap">サイトマップ</a></li>
+      <li><a href="https://www.kanazawa-it.ac.jp/" target="_blank">大学公式サイト</a></li>
+    </ul>
+  </nav>
+
+  <main id="main">
+    <section class="map-section">
+      <div id="search-container">
+        <div class="search-input-wrapper">
+          <input type="text" id="search-input" placeholder="建物や施設を検索..." autocomplete="off">
+          <span id="search-clear">&times;</span>
+        </div>
+        <div id="search-results"></div>
+      </div>
+
+      <div id="map-container">
+        <svg id="campus-svg" viewBox="0 0 688 886" preserveAspectRatio="xMidYMid slice" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <g id="viewport">
+            <g id="base-layer">
           <path id="23" d="M406 309.541H510V365.541H406V309.541Z" fill="#F66C28" />
           <path id="11" d="M208 606.541H355V626.541H208V606.541Z" fill="#F66C28" />
           <path id="10" d="M311 626.541H326V678.541H311V626.541Z" fill="#F66C28" />
@@ -672,21 +893,101 @@
         <g id="label-layer"></g>
       </g> <!-- End viewport -->
     </svg>
-  </div>
 
-
-
-  <!-- モーダル要素 -->
-  <div id="modal" class="modal">
-    <div class="modal-content">
-      <span class="close" id="modal-close">&times;</span>
-      <h3 id="modal-title">タイトル</h3>
-      <p id="modal-description">説明</p>
+    <div id="zoom-controls">
+      <button class="zoom-btn" id="zoom-in" title="拡大">+</button>
+      <button class="zoom-btn" id="zoom-out" title="縮小">−</button>
     </div>
   </div>
+</section>
 
-  <script>
-    const kitLabelNames = {
+<section id="mission" class="content-section">
+  <h2 class="section-title">私たちの使命</h2>
+  <div class="mission-grid">
+    <div class="mission-text">
+      <h3>「迷わない」という安心を、すべての人へ。</h3>
+      <p>
+        金沢工業大学（KIT）の広大なキャンパスには、多くの号館や施設が点在しています。初めて訪れる方や、普段通い慣れている学生でも、ふとした瞬間に目的地が見つからないことがあります。
+      </p>
+      <p>
+        このプロジェクトは、テクノロジーを活用してキャンパスのアクセシビリティを向上させることを目的に、有志によって運営されています。複雑な構内図を直感的なインタラクティブマップに変換し、必要な情報へ一瞬でアクセスできる環境を整えています。
+      </p>
+      <p>
+        私たちは、ただの地図を作っているわけではありません。目的地に「迷わず着ける」ことで生まれる、心と時間のゆとりを提供したいと考えています。
+      </p>
+    </div>
+    <div class="mission-image">
+      <div style="font-size: 4rem; margin-bottom: 20px;">🚀</div>
+      <h4 style="margin: 0; color: var(--orange);">Improving Campus Life</h4>
+      <p style="font-size: 0.9rem; color: var(--text-muted);">Digital Accessibility for KIT Students</p>
+    </div>
+  </div>
+</section>
+
+<footer id="sitemap" class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <h2>KIT CampusMap</h2>
+      <p style="font-size: 0.9rem; color: #777; line-height: 1.8;">
+        金沢工業大学（KIT）の非公式キャンパスマッププロジェクト。<br>
+        広大なキャンパスを、もっと身近に、もっと快適に。
+      </p>
+    </div>
+    <div class="footer-links">
+      <h4>サイトマップ</h4>
+      <ul>
+        <li><a href="#">マップトップ</a></li>
+        <li><a href="#mission">ミッション</a></li>
+        <li><a href="#search-input">施設検索</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>主要施設</h4>
+      <ul>
+        <li><a href="#" onclick="showBuilding('6LC'); return false;">ライブラリーセンター</a></li>
+        <li><a href="#" onclick="showBuilding('41'); return false;">夢考房</a></li>
+        <li><a href="#" onclick="showBuilding('コンビニ'); return false;">コンビニ（アクア）</a></li>
+        <li><a href="#" onclick="showBuilding('ラテラ'); return false;">学食（ラテラ）</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>外部リンク</h4>
+      <ul>
+        <li><a href="https://www.kanazawa-it.ac.jp/" target="_blank">大学公式サイト</a></li>
+        <li><a href="https://www.kanazawa-it.ac.jp/kitnews/" target="_blank">KITニュース</a></li>
+        <li><a href="https://lms.kanazawa-it.ac.jp/" target="_blank">KIT LMS</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2026 KIT CampusMap Project (Unofficial). All rights reserved.
+  </div>
+</footer>
+
+<!-- モーダル要素 -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close" id="modal-close">&times;</span>
+    <div id="modal-header-area">
+      <h3 id="modal-title">タイトル</h3>
+    </div>
+    <div id="modal-description">説明</div>
+  </div>
+</div>
+
+<script>
+  // グローバルに関数を定義してフッターから呼べるようにする
+  function showBuilding(id) {
+    const el = document.getElementById(id);
+    if (el) {
+      // 既存のクリックイベントを発火させる
+      el.dispatchEvent(new Event('click'));
+      // マップセクションへスクロール
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  const kitLabelNames = {
       1: "1",
       2: "2",
       3: "3",
